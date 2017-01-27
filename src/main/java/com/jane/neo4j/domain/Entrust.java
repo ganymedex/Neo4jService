@@ -1,27 +1,27 @@
 package com.jane.neo4j.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 @JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity(label = "ENTRUST")
-public class Entrust implements Serializable{
+public class Entrust {
 //	entrust_id appl_id(发起人ID) entrust_title entrust_content entrust_amount st_date end_date entrust_status(赏金收割方式，主动停止，赏金终止，到期终止) bider_id（最终中标人id）
  
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	@GraphId 
 	Long id;
 	private String entrustId;
 	private String applId;
+	@Property(name="entrustTitle")
 	private String entrustTitle;
 	private String entrustContent;
 	private String entrustAmount;
@@ -29,6 +29,14 @@ public class Entrust implements Serializable{
 	private Date endDate;
 	private String entrustStatus;
 	private String biderId;
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getEntrustId() {
 		return entrustId;
 	}
@@ -85,10 +93,11 @@ public class Entrust implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Entrust [entrustId=" + entrustId + ", applId=" + applId + ", entrustTitle=" + entrustTitle
-				+ ", entrustContent=" + entrustContent + ", entrustAmount=" + entrustAmount + ", stDate=" + stDate
-				+ ", endDate=" + endDate + ", entrustStatus=" + entrustStatus + ", biderId=" + biderId + "]";
+		return "Entrust [id=" + id + ", entrustId=" + entrustId + ", applId=" + applId + ", entrustTitle="
+				+ entrustTitle + ", entrustContent=" + entrustContent + ", entrustAmount=" + entrustAmount + ", stDate="
+				+ stDate + ", endDate=" + endDate + ", entrustStatus=" + entrustStatus + ", biderId=" + biderId + "]";
 	}
+	
 	
 	
 	
