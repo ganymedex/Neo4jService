@@ -1,5 +1,6 @@
 package com.jane.neo4j.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.neo4j.ogm.annotation.GraphId;
@@ -12,11 +13,16 @@ import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 @JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity(label="PERSON")
-public class Person {
+public class Person implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	//id user_phone_number user_name entrust_id user_p_node_id
 	@GraphId
-	private String id;
+	Long id;
 	
 	@Property(name="name")
 	private String name;
@@ -30,18 +36,20 @@ public class Person {
     private List<Person> friends;
     
    //关系直接定义在节点中 传播者链路
-    @Relationship(type = "IS_PROPAGATOR_OF", direction=Relationship.OUTGOING)
+    @Relationship(type = "PROPAGATOR", direction=Relationship.OUTGOING)
     private List<Person> propagator;
 	
     //使用外部定义的关系 拥有者
     @Relationship(type = "OWNER")
     private Entrust ownerEntrust;
 
-	public String getId() {
+	
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jane.neo4j.domain.Entrust;
+import com.jane.neo4j.domain.LinkOwner;
 import com.jane.neo4j.domain.Person;
+import com.jane.neo4j.eum.ServiceStatusEnum;
 import com.jane.neo4j.model.ReqParm;
 import com.jane.neo4j.model.RespParm;
 import com.jane.neo4j.services.EntrustService;
+import com.jane.neo4j.services.LinkOwnerService;
 import com.jane.neo4j.services.PersonService;
 import com.jane.neo4j.utils.JsonTools;
 import com.jane.neo4j.utils.StringUtils;
@@ -28,7 +31,8 @@ public class EntrustController {
 	@Autowired
 	private PersonService personService;
 	 
-	
+	@Autowired
+	private LinkOwnerService linkOwnerService;
 	
 	
 	/**
@@ -58,6 +62,11 @@ public class EntrustController {
 		entityPerson.setEntrustId(entrustId);
 		//保存人和 任务
 		Person person = personService.savePerson(entityPerson);
+		
+		
+		//TODO ServiceStatusEnum status = ServiceStatusEnum.已发布;
+		LinkOwner link = new LinkOwner(ServiceStatusEnum.已发布, entrust, person);
+		linkOwnerService.saveLinkOwner(link);
 		
 		String url ="http://www.jane.com/"+entrust.getApplId()+"/"+entrust.getEntrustId();
 		Map<String,Object> data=new HashedMap<String,Object>();

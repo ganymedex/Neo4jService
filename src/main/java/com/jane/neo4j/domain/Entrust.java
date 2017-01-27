@@ -1,5 +1,6 @@
 package com.jane.neo4j.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.neo4j.ogm.annotation.GraphId;
@@ -11,9 +12,13 @@ import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 @JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity(label = "ENTRUST")
-public class Entrust {
+public class Entrust implements Serializable{
 //	entrust_id appl_id(发起人ID) entrust_title entrust_content entrust_amount st_date end_date entrust_status(赏金收割方式，主动停止，赏金终止，到期终止) bider_id（最终中标人id）
  
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */

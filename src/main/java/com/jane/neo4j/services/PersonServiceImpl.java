@@ -1,5 +1,8 @@
 package com.jane.neo4j.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -24,6 +27,19 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public Person savePerson(Person p) {
 		return personResitory.save(p);
+	}
+
+
+	@Override
+	public List<Person> savePersonList(List<Person> p) {
+		// TODO Auto-generated method stub
+		Iterable<Person> pList = personResitory.save(p);
+		List<Person> personList = new ArrayList<Person>();
+		pList.forEach(person -> {
+			personList.add(person);
+		});
+		
+		return personList;
 	}
 
 }
