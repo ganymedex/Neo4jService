@@ -2,7 +2,6 @@ package com.jane.neo4j.domain;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -10,35 +9,34 @@ import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.jane.neo4j.eum.PersonTypeEnum;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-@NodeEntity(label = "PERSON")
-public class Person implements Serializable {
+@NodeEntity(label = "PROPAGATORER")
+public class Propagator implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// id user_phone_number user_name entrust_id user_p_node_id
 	@GraphId
 	Long id;
 
+	private String propagatorId;
 	@Property(name = "name")
 	private String name;
 	private String userId;
 	@Property(name = "phoneNumber")
 	private String phoneNumber;
 	private String entrustId;
+	private String parentId;
 
-	// 关系直接定义在节点中 假设朋友关系 预留计算二度人脉 很重要
-	@Relationship(type = "IS_FRIEND_OF", direction = Relationship.OUTGOING)
-	private List<Person> friends;
-
-	// 使用外部定义的关系 拥有者
-	@Relationship(type = "OWNER")
-	private Set<Entrust> ownerEntrust;
+	private PersonTypeEnum type;
+	// 关系直接定义在节点中 传播者链路
+	@Relationship(type = "PROPAGATOR_SON", direction = Relationship.OUTGOING)
+	private List<Propagator> propagator;
 
 	public Long getId() {
 		return id;
@@ -46,6 +44,14 @@ public class Person implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getPropagatorId() {
+		return propagatorId;
+	}
+
+	public void setPropagatorId(String propagatorId) {
+		this.propagatorId = propagatorId;
 	}
 
 	public String getName() {
@@ -80,20 +86,35 @@ public class Person implements Serializable {
 		this.entrustId = entrustId;
 	}
 
-	public List<Person> getFriends() {
-		return friends;
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setFriends(List<Person> friends) {
-		this.friends = friends;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
-	public Set<Entrust> getOwnerEntrust() {
-		return ownerEntrust;
+	public List<Propagator> getPropagator() {
+		return propagator;
 	}
 
-	public void setOwnerEntrust(Set<Entrust> ownerEntrust) {
-		this.ownerEntrust = ownerEntrust;
+	public void setPropagator(List<Propagator> propagator) {
+		this.propagator = propagator;
+	}
+
+	public PersonTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(PersonTypeEnum type) {
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "Propagator [id=" + id + ", propagatorId=" + propagatorId + ", name=" + name + ", userId=" + userId
+				+ ", phoneNumber=" + phoneNumber + ", entrustId=" + entrustId + ", parentId=" + parentId + ", type="
+				+ type + ", propagator=" + propagator + "]";
 	}
 
 }

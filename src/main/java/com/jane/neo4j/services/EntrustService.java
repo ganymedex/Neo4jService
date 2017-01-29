@@ -7,8 +7,10 @@ import com.jane.neo4j.domain.Entrust;
 public interface EntrustService {
   
 	Entrust save(Entrust entiry);
-	
-	List<Entrust> queryListBy(String name);
+
+	Entrust queryOneByEntrustId(String entrustId);
+
+	List<Entrust> queryListByUserId(String userId);
 	
 	
 	

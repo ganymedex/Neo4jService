@@ -1,6 +1,5 @@
 package com.jane.neo4j.services;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +16,18 @@ public class EntrustServiceImpl implements EntrustService {
 
 	@Override
 	public Entrust save(Entrust entiry) {
-		Entrust bean = entrustResitory.save(entiry);
-		System.out.println(bean);
-		return bean;
+		return entrustResitory.save(entiry);
 	}
 
 	@Override
-	public List<Entrust> queryListBy(String name) {
-		List<Entrust> list = entrustResitory.queryEntrustByName(name);
-		return list;
+	public Entrust queryOneByEntrustId(String entrustId) {
+		return entrustResitory.queryOneByEntrustId(entrustId);
 	}
 
-	public Collection<Entrust> queryListByTitle(String name) {
-		Collection<Entrust> queryByName = entrustResitory.queryByName(name);
-		return queryByName;
+	@Override
+	public List<Entrust> queryListByUserId(String userId) {
+		return entrustResitory.queryListByUserId(userId);
 	}
+
 
 }
