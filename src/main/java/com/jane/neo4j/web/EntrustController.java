@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jane.neo4j.domain.Entrust;
 import com.jane.neo4j.domain.LinkOwner;
+import com.jane.neo4j.domain.LinkRecords;
 import com.jane.neo4j.domain.Person;
 import com.jane.neo4j.domain.Propagator;
 import com.jane.neo4j.eum.PersonTypeEnum;
@@ -24,6 +26,7 @@ import com.jane.neo4j.model.ReqParm;
 import com.jane.neo4j.model.RespParm;
 import com.jane.neo4j.services.EntrustService;
 import com.jane.neo4j.services.LinkOwnerService;
+import com.jane.neo4j.services.LinkRecordService;
 import com.jane.neo4j.services.PersonService;
 import com.jane.neo4j.services.PropagatorService;
 import com.jane.neo4j.utils.JsonTools;
@@ -37,6 +40,9 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class EntrustController {
+	
+	@Value("${url.base}")
+	private String URL;
 
 	@Autowired
 	private EntrustService entrustService;
@@ -49,6 +55,9 @@ public class EntrustController {
 	
 	@Autowired
 	private PropagatorService propagatorService;
+	
+	@Autowired
+	private LinkRecordService linkRecordService;
 
 	@ApiOperation(value = "存储事件信息", notes = "", response = Entrust.class)
 	// @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true,
@@ -118,8 +127,11 @@ public class EntrustController {
 			entrustId = StringUtils.getUUID();
 			entityEntrust.setApplId(userId);
 			entityEntrust.setEntrustId(entrustId);
+			//新创建 状态  TODO 已经支付现金
+			entityEntrust.setEntrustStatus(ServiceStatusEnum.已发布);
 			entrust = entrustService.save(entityEntrust);
 		} else {
+				//TODO 检查现金支付状态
 			entrust = entrustService.queryOneByEntrustId(entrustId);
 		}
 
@@ -153,7 +165,15 @@ public class EntrustController {
 		LinkOwner link = new LinkOwner(ServiceStatusEnum.已发布, entrust, person);
 		linkOwnerService.saveLinkOwner(link);
 
-		String url = "http://www.jane.com/" + entrust.getApplId() + "/" + entrust.getEntrustId();
+		String url = URL+ entrust.getApplId() + "/" + entrust.getEntrustId();
+		
+		LinkRecords entity = new LinkRecords();
+		entity.setCreateNodeId(entrust.getApplId());
+		entity.setUrl(url);
+		entity.setEntrustId(entrustId);
+		entity.setRecordId(StringUtils.getUUID());
+		linkRecordService.saveLinkRecords(entity);
+		
 		Map<String, Object> data = new HashedMap<String, Object>();
 		data.put("entrust", entrust);
 		data.put("url", url);

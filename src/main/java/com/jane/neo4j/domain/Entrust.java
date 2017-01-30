@@ -8,6 +8,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.jane.neo4j.eum.ServiceStatusEnum;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 @JsonIdentityInfo(generator=JSOGGenerator.class)
@@ -19,9 +20,7 @@ public class Entrust implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
+
 	@GraphId 
 	Long id;
 	private String entrustId;
@@ -32,7 +31,7 @@ public class Entrust implements Serializable{
 	private String entrustAmount;
 	private Date stDate;
 	private Date endDate;
-	private String entrustStatus;
+	private ServiceStatusEnum entrustStatus;
 	private String biderId;
 	
 	
@@ -84,10 +83,10 @@ public class Entrust implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public String getEntrustStatus() {
+	public ServiceStatusEnum getEntrustStatus() {
 		return entrustStatus;
 	}
-	public void setEntrustStatus(String entrustStatus) {
+	public void setEntrustStatus(ServiceStatusEnum entrustStatus) {
 		this.entrustStatus = entrustStatus;
 	}
 	public String getBiderId() {

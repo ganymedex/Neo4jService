@@ -1,21 +1,21 @@
 package com.jane.neo4j.eum;
 
-public enum PersonTypeEnum {
+public enum BidStatusEnum {
 
-	创建者("创建者", 1), 转播者("转播者", 2), 揭榜者("揭榜者", 3);
+	未读("未读", 1), 已读("已读", 2);
     // 成员变量
     private String name;
     private int index;
 
     // 构造方法
-    private PersonTypeEnum(String name, int index) {
+    private BidStatusEnum(String name, int index) {
         this.name = name;
         this.index = index;
     }
 
     // 普通方法
     public static String getName(int index) {
-        for (PersonTypeEnum c : PersonTypeEnum.values()) {
+        for (BidStatusEnum c : BidStatusEnum.values()) {
             if (c.getIndex() == index) {
                 return c.name;
             }
