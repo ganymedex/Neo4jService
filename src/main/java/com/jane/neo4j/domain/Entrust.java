@@ -38,9 +38,7 @@ public class Entrust implements Serializable{
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public String getEntrustId() {
 		return entrustId;
 	}

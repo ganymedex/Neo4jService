@@ -21,12 +21,14 @@ public class EntrustServiceImpl implements EntrustService {
 
 	@Override
 	public Entrust queryOneByEntrustId(String entrustId) {
-		return entrustResitory.queryOneByEntrustId(entrustId);
+		Entrust data = entrustResitory.queryOneByEntrustId(entrustId);
+		return data;
 	}
 
 	@Override
 	public List<Entrust> queryListByUserId(String userId) {
-		return entrustResitory.queryListByUserId(userId);
+		List<Entrust> data = entrustResitory.queryListByUserId(userId);
+		return data;
 	}
 
 

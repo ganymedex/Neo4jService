@@ -1,15 +1,18 @@
 package com.jane.neo4j.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jane.neo4j.domain.Entrust;
 import com.jane.neo4j.domain.Person;
-import com.jane.neo4j.services.LinkPropagatorService;
+import com.jane.neo4j.services.EntrustService;
 import com.jane.neo4j.services.PersonService;
 import com.jane.neo4j.utils.JsonTools;
 
@@ -26,7 +29,7 @@ public class UserController {
 	private PersonService userService;
 
 	@Autowired
-	private LinkPropagatorService linkPropagatorService;
+	private EntrustService entrustService;
 
 	
 	@ApiOperation(value="存储用户信息", notes="非传播者",response=Entrust.class)
@@ -58,7 +61,18 @@ public class UserController {
 	}
 	
 	
-	
+	@ApiOperation(value = "查询该用户事件信息集合", notes = "返回集合信息", response = Entrust.class)
+	// @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true,
+	// dataType = "User")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "user_id", value = "创建人ID", required = true, dataType = "String") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Entrust.class),
+			@ApiResponse(code = 400, message = "Invalid ID supplied"),
+			@ApiResponse(code = 404, message = "Pet not found") })
+	@RequestMapping(value = "/user/entrusts/{user_id}", method = RequestMethod.GET)
+	public String queryEntrustInfoList(@PathVariable(value = "user_id") @RequestParam String userId) {
+		List<Entrust> result = entrustService.queryListByUserId(userId);
+		return JsonTools.toJson(result);
+	}
 	
 	
 	

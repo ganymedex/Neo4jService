@@ -18,7 +18,7 @@ public interface EntrustResitory extends GraphRepository<Entrust> {
 //	@Query("match (p: ENTRUST {applId:{title}}) return p;")
 //	List<Entrust> queryEntrustByName(@Param("title") String title);
 
-	@Query("match (p: ENTRUST {applId:{entrustId}}) return p;")
+	@Query("match (p: ENTRUST {entrustId:{entrustId}}) return p;")
 	Entrust queryOneByEntrustId(@Param("entrustId")String entrustId);
 	@Query("match (p: ENTRUST {applId:{0}}) return p;")
 	List<Entrust> queryListByUserId(String userId);

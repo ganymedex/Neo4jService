@@ -1,7 +1,6 @@
 package com.jane.neo4j.web;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jane.neo4j.domain.Entrust;
@@ -62,11 +60,11 @@ public class EntrustController {
 	@ApiOperation(value = "存储事件信息", notes = "", response = Entrust.class)
 	// @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true,
 	// dataType = "User")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Entrust", value = "存储事件信息", required = true, dataType = "Entrust") })
+	//@ApiImplicitParams({ @ApiImplicitParam(name = "Entrust", value = "存储事件信息", required = true, dataType = "Entrust") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Entrust.class),
 			@ApiResponse(code = 400, message = "Invalid ID supplied"),
 			@ApiResponse(code = 404, message = "Pet not found") })
-	@RequestMapping(value = "/entrust", method = RequestMethod.POST)
+	@RequestMapping(value = "entrust", method = RequestMethod.POST)
 	public String saveEntrustInfo(@RequestBody Entrust entiry) {
 		Entrust result = entrustService.save(entiry);
 		return JsonTools.toJson(result);
@@ -75,28 +73,17 @@ public class EntrustController {
 	@ApiOperation(value = "查询事件信息", notes = "", response = Entrust.class)
 	// @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true,
 	// dataType = "User")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "entrustId", value = "事件ID", required = true, dataType = "String") })
+	//@ApiImplicitParams({ @ApiImplicitParam(name = "entrustId", value = "事件ID", required = true, dataType = "String") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Entrust.class),
 			@ApiResponse(code = 400, message = "Invalid ID supplied"),
 			@ApiResponse(code = 404, message = "Pet not found") })
-	@RequestMapping(value = "/entrust/{entrust_id}", method = RequestMethod.GET)
-	public String queryEntrustInfo(@PathVariable(value = "entrust_id") @RequestParam String entrustId) {
-		Entrust result = entrustService.queryOneByEntrustId(entrustId);
+	@RequestMapping(value = "entrust/{entrust_id}", method = RequestMethod.GET)
+	public String queryEntrustInfo(@PathVariable(value = "entrust_id") String entrust_id) {
+		Entrust result = entrustService.queryOneByEntrustId(entrust_id);
 		return JsonTools.toJson(result);
 	}
 
-	@ApiOperation(value = "查询事件信息集合", notes = "返回集合信息", response = Entrust.class)
-	// @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true,
-	// dataType = "User")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "user_id", value = "创建人ID", required = true, dataType = "String") })
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Entrust.class),
-			@ApiResponse(code = 400, message = "Invalid ID supplied"),
-			@ApiResponse(code = 404, message = "Pet not found") })
-	@RequestMapping(value = "/entrusts/{user_id}", method = RequestMethod.GET)
-	public String queryEntrustInfoList(@PathVariable(value = "user_id") @RequestParam String userId) {
-		List<Entrust> result = entrustService.queryListByUserId(userId);
-		return JsonTools.toJson(result);
-	}
+	
 
 	/**
 	 * 保存事件 关联 任务
